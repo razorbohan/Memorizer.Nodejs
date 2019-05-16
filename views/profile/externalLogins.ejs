@@ -1,0 +1,55 @@
+<h2>Manage your profile!</h2>
+<hr>
+
+<div class="row">
+    <div class="col-md-3">
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="/User/Profile">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/User/Profile/ChangePassword">Password</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/User/Profile/ExternalLogins">External logins</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-md-5">
+        <%if (locals.currentLogins.length > 0) {%>
+            <div class="my-2">
+                <h3>Registered logins</h3>
+                <hr>
+
+                <form action="/User/Profile/ExternalLogins/Remove" method="POST">
+                    <% currentLogins.forEach(function(loginProvider) { %>
+                        <button type="submit" name="provider" value="<%= loginProvider.Name %>" class="btn btn-social btn-<%= loginProvider.ClassName %> text-xs-center">
+                            <i class="fa fa-<%= loginProvider.ClassName %>"></i>
+                            Remove
+                        </button>
+                    <% }); %>
+                </form>
+            </div>
+        <%}%>
+
+        <%if (locals.otherLogins.length > 0) {%>
+            <h3>Add another service to login</h3>
+            <hr>
+
+            <% otherLogins.forEach(function(loginProvider) { %>
+                <a href="/User/Login/<%= loginProvider.Name %>" class="btn btn-social-icon btn-lg btn-<%= loginProvider.ClassName %>">
+                    <i class="fa fa-<%= loginProvider.ClassName %>"></i>
+                </a>
+            <% }); %>
+        <%}%>
+
+        <%if (locals.errorMessages) {%>
+            <div class="error-box">
+                <% errorMessages.forEach(function(message) { %>
+                    <p><%= message %></p>
+                <% }); %>
+            </div>
+        <%}%>
+    </div>
+</div>
